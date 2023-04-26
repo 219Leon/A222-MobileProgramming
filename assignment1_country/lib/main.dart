@@ -1,26 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:assignment1_country/countryData.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
   runApp(const MyApp());
-  configLoading();
 }
 
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,44 +20,21 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: const MyHomePage(title: 'Country Information'),
-      builder: EasyLoading.init(),
+      home: const MyHomePage(),
     );
   }
 }
 
-void configLoading() {
-  EasyLoading.instance
-    ..displayDuration = const Duration(seconds: 2)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-    ..loadingStyle = EasyLoadingStyle.light
-    ..indicatorSize = 40
-    ..radius = 10
-    ..progressColor = Colors.indigo
-    ..backgroundColor = const Color.fromARGB(255, 255, 255, 187)
-    ..textColor = Colors.black
-    ..indicatorColor = Colors.indigo
-    ..maskColor = Colors.indigo.withOpacity(0.5)
-    ..userInteractions = true
-    ..dismissOnTap = false;
-}
-
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key}): super(key:key);
 
-  final String title;
-  
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String apiid = "7T46D8Hm7NRGepZtN0JaFA==yBG6aI3mJeLtBrJp";
-  var desc = "No information available";
   final TextEditingController _countryName = TextEditingController();
-  
-    Timer? _timer;
-
+  var desc = "", searchCountry = "";
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -100,11 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(10.0))),
                       ),
                       const SizedBox (height:10),
-                      ElevatedButton(onPressed: () {_getCountry();
-                      }, 
+                      ElevatedButton(
+                        onPressed: _getCountry,
                         child: const Text("Load Information")),
-                        Text(desc, 
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text(desc, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red))  
                     ],
                   )
                 )
@@ -116,41 +84,40 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _progressindicator() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        const Duration(seconds: 3);
-        EasyLoading.addStatusCallback((status) {
-          print('EasyLoading Status $status');
-          if (status == EasyLoadingStatus.dismiss) {
-            _timer?.cancel();
-          }
-        });
-        EasyLoading.showSuccess('Search Success');
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
-  }
 
-  Future<void> _getCountry() async {
-    
-    var apiid = "7T46D8Hm7NRGepZtN0JaFA==yBG6aI3mJeLtBrJp";
-    var url = Uri.parse('https://api.api-ninjas.com/v1/country?name=');
-    var responses = await http.get(url);
-    var rescode = responses.statusCode;
-    if (rescode == 200){
+  Future<void> _getCountry() async {   
+    searchCountry = _countryName.text;
+    String apiid = "7T46D8Hm7NRGepZtN0JaFA==yBG6aI3mJeLtBrJp";
+    Uri url = Uri.parse('https://api.api-ninjas.com/v1/country?name=$searchCountry');
+    var responses = await http.get(url, headers: {"X-Api-Key": apiid});
+    var rescode1 = responses.statusCode;
+    if (rescode1 == 200){
       var jsonData = responses.body;
-      var parsedJson = json.decode(jsonData);
-
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => countryData(
-        name: _countryName.text, 
-        countryflag: countryflag, 
-        capital: capital, 
-        currency: currency)));
-    } else{
-      print("Error: Failed to acquire country info");
+      List parsedJson = json.decode(jsonData);
+      List countryName = [], countryCode = [], countryCapital = [], countryCurrencyCode = [], countryCurrencyName = []; 
+      if (parsedJson.isNotEmpty) {
+        setState(() {
+          countryName.add(parsedJson[0]['name']);
+          countryCode.add(parsedJson[0]['iso2']);
+          countryCapital.add(parsedJson[0]['capital']);
+          countryCurrencyCode.add(parsedJson[0]['currency']['code']);
+          countryCurrencyName.add(parsedJson[0]['currency']['name']);
+          print("Country Name: $countryName\nCapital: $countryCapital\nCurrency: $countryCurrencyName ($countryCurrencyCode)");
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => countryData(
+              name: countryName, 
+              isoCodeList: countryCode, 
+              capitalList: countryCapital, 
+              currencyNameList: countryCurrencyName, 
+              currencyCodeList: countryCurrencyCode)));
+        });
+      } else {
+        print("Error: Country not found");
+        desc = "Country not found!";
+      }
+    } else {
+      print("Error: Unable to obtain information");
+      desc = "Error obtaining information.";
     }
   }
 }
