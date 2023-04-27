@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:ndialog/ndialog.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment1_country/countryData.dart';
 import 'package:http/http.dart' as http;
@@ -85,7 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  Future<void> _getCountry() async {   
+  Future<void> _getCountry() async { 
+    ProgressDialog progressDialog = ProgressDialog(context,
+      title: const Text("Searching..."),
+      message: const Text( "Loading country information..."));
+    progressDialog.show();  
     searchCountry = _countryName.text;
     String apiid = "7T46D8Hm7NRGepZtN0JaFA==yBG6aI3mJeLtBrJp";
     Uri url = Uri.parse('https://api.api-ninjas.com/v1/country?name=$searchCountry');
@@ -95,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var jsonData = responses.body;
       List parsedJson = json.decode(jsonData);
       List countryName = [], countryCode = [], countryCapital = [], countryCurrencyCode = [], countryCurrencyName = []; 
+      progressDialog.dismiss();
       if (parsedJson.isNotEmpty) {
         setState(() {
           countryName.add(parsedJson[0]['name']);
