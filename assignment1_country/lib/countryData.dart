@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class countryData extends StatelessWidget {
   List name, isoCodeList, capitalList, currencyNameList, currencyCodeList;
@@ -30,6 +31,12 @@ class countryData extends StatelessWidget {
       return value + element;
     });
     String flagUrl = 'https://flagsapi.com/$isoCode/shiny/64.png';
+    Fluttertoast.showToast(
+      msg: "Success!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      fontSize: 14);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -46,6 +53,7 @@ class countryData extends StatelessWidget {
               Text('Capital: $capital', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Text('Currency Name: $currencyName', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Text('Currency Code: $currencyCode', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox (height:88),
             ],
           ),
       )),
