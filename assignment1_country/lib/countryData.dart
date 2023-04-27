@@ -29,7 +29,7 @@ class countryData extends StatelessWidget {
         String currencyCode = currencyCodeList.reduce((value, element) {
       return value + element;
     });
-    String flagUrl = 'https://flagsapi.com/$isoCode/flat/64.png';
+    String flagUrl = 'https://flagsapi.com/$isoCode/shiny/64.png';
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
