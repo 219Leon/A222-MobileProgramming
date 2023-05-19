@@ -27,7 +27,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String eula = "";
 
-  late double screenHeight, screenWidth, resWidth;
+  late double screenHeight, screenWidth;
 
   @override
   void initState() {
@@ -352,7 +352,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == "success") {
           Fluttertoast.showToast(
-              msg: "Success",
+              msg: "Registration Success",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,

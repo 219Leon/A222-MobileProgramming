@@ -134,7 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: 50,
                                     child: const Text('Login'),
                                     elevation: 10,
-                                    color: Colors.blue,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     onPressed: _loginUser)
                               ],
                             ),
@@ -244,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-    void _loginUser() {
+  void _loginUser() {
     if (!_formKey.currentState!.validate()) {
       Fluttertoast.showToast(
           msg: "Please fill in the login credentials",
@@ -257,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     String _email = _emailEditingController.text;
     String _pass = _passEditingController.text;
-    http.post(Uri.parse("${Config.SERVER}/barterit/php/register_user.php"),
+    http.post(Uri.parse("${Config.SERVER}/barterit/php/login_user.php"),
         body: {"email": _email, "password": _pass}).then((response) {
       print(response.body);
       if (response.statusCode == 200) {
@@ -265,9 +266,9 @@ class _LoginScreenState extends State<LoginScreen> {
         print(jsonResponse);
         User user = User.fromJson(jsonResponse['data']);
         print(user.phone);
-        //User user = User(id: jsonResponse['data']['name'],email: jsonResponse['email'],name: "",phone: "",address: "",regdate: "");
+        user = User(id: jsonResponse['data']['name'],email: jsonResponse['email'],name: "",phone: "",address: "",regdate: "");
         Navigator.push(context,
-            MaterialPageRoute(builder: (content) => MainScreen(user: user)));
+            MaterialPageRoute(builder: (content) => const MainScreen()));
       } else {
         Fluttertoast.showToast(
             msg: "Login Failed",
@@ -279,7 +280,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  
   String? validatePassword(String value) {
     String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
     RegExp regex = RegExp(pattern);

@@ -5,7 +5,6 @@ class User {
   String? phone;
   String? address;
   String? regdate;
-  String? credit;
 
   User(
       {required this.id,
@@ -13,7 +12,7 @@ class User {
       required this.email,
       required this.phone,
       required this.address,
-      required this.regdate,required this.credit});
+      required this.regdate});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,7 +21,6 @@ class User {
     phone = json['phone'];
     address = json['address'];
     regdate = json['regdate'];
-    credit = json['credit'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +31,6 @@ class User {
     data['phone'] = phone;
     data['address'] = address;
     data['regdate'] = regdate;
-    data['credit'] = credit;
     return data;
   }
 }
