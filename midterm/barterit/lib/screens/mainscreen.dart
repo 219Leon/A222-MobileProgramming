@@ -1,12 +1,20 @@
 import 'package:barterit/screens/buyerscreen.dart';
 import 'package:barterit/screens/profilescreen.dart';
 import 'package:barterit/screens/sellerscreen.dart';
+import '../../model/user.dart';
+import '../../model/items.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainScreen extends StatefulWidget {
+  final User user;
+  final Item item;
   var selectedIndex;
-  MainScreen({super.key, required this.selectedIndex});
+  MainScreen(
+      {super.key,
+      required this.selectedIndex,
+      required this.user,
+      required this.item});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -21,8 +29,12 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _selectedIndex = widget.selectedIndex;
     _tabs = [
-      BuyerScreen(selectedIndex: 0),
-      SellerScreen(selectedIndex: 1),
+      SellerScreen(
+        selectedIndex: 0,
+        user: widget.user,
+        item: widget.item,
+      ),
+      BuyerScreen(selectedIndex: 1),
       ProfileScreen(selectedIndex: 2)
     ];
   }
@@ -31,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _tabs[_selectedIndex],
-            bottomNavigationBar: Container(
+      bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -54,20 +66,20 @@ class _MainScreenState extends State<MainScreen> {
                 horizontal: 18,
                 vertical: 18,
               ),
-              activeColor: Colors.blue,
-              tabBorder: Border.all(color: Colors.blueAccent),
+              activeColor: Colors.teal,
+              tabBorder: Border.all(color: Colors.tealAccent),
               tabActiveBorder: Border.all(),
               tabBorderRadius: 30,
               iconSize: 20,
-              tabBackgroundColor: Colors.blue.withOpacity(0.1),
+              tabBackgroundColor: Colors.teal.withOpacity(0.1),
               tabs: const [
-                GButton(
-                  icon: Icons.shopping_bag,
-                  text: 'Buyer',
-                ),
                 GButton(
                   icon: Icons.store_mall_directory,
                   text: 'Seller',
+                ),
+                GButton(
+                  icon: Icons.shopping_bag,
+                  text: 'Buyer',
                 ),
                 GButton(
                   icon: Icons.person,

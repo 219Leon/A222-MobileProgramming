@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/registrationscreen.dart';
 import '../screens/mainscreen.dart';
 import '../model/user.dart';
+import '../model/items.dart';
 import '../config.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -127,15 +128,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )),
-                                MaterialButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    minWidth: 115,
-                                    height: 50,
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                      fixedSize: MaterialStateProperty.all(
+                                          const Size.fromHeight(50)),
+                                    ),
                                     child: const Text('Login'),
-                                    elevation: 10,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
                                     onPressed: _loginUser)
                               ],
                             ),
@@ -258,17 +256,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
     String _email = _emailEditingController.text;
     String _pass = _passEditingController.text;
-    http.post(Uri.parse("${Config.SERVER}/barterit/php/login_user.php"),
+    http.post(Uri.parse("${Config.SERVER}php/login_user.php"),
         body: {"email": _email, "password": _pass}).then((response) {
       print(response.body);
-      if (response.statusCode == 200) {
+            var jsonResponse = json.decode(response.body);
+
+      if (response.statusCode == 200&& jsonResponse['status'] == "success") {
         var jsonResponse = json.decode(response.body);
         print(jsonResponse);
         User user = User.fromJson(jsonResponse['data']);
+        Item item = Item.fromJson(jsonResponse['data']); 
         print(user.phone);
-        user = User(id: jsonResponse['data']['name'],email: jsonResponse['email'],name: "",phone: "",address: "",regdate: "");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (content) => MainScreen(selectedIndex: 0,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (content) => MainScreen(
+                       user: user, 
+                       item: item,
+                       selectedIndex: 0,
+                    )));
+      } else if (response.statusCode != 200) {
+        Fluttertoast.showToast(
+            msg: "Login Failed. No response.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 14.0);
       } else {
         Fluttertoast.showToast(
             msg: "Login Failed",

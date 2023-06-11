@@ -7,6 +7,7 @@ import 'package:barterit/screens/registrationscreen.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
 
   @override
@@ -57,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
               Text("BarterIt",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black)),
               CircularProgressIndicator(),
               Text(
                 "Version 1.0.0",

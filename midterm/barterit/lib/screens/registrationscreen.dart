@@ -171,14 +171,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               )),
                         ),
                       ),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        minWidth: 115,
-                        height: 50,
-                        elevation: 10,
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          fixedSize: MaterialStateProperty.all(
+                              const Size.fromHeight(50)),
+                        ),
                         onPressed: _registerAccountDialog,
-                        color: Theme.of(context).colorScheme.primary,
                         child: const Text('Register'),
                       ),
                     ],
@@ -342,13 +340,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void _registerUser(String name, String email, String phone, String pass) {
     try {
-      http.post(Uri.parse("${Config.SERVER}/barterit/php/register_user.php"), body: {
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "password": pass,
-        "register": "register"
-      }).then((response) {
+      http.post(Uri.parse("${Config.SERVER}/php/register_user.php"),
+          body: {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "password": pass,
+            "register": "register"
+          }).then((response) {
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == "success") {
           Fluttertoast.showToast(
@@ -357,7 +356,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 14.0);
-          print("Success");    
+          print("Success");
           return;
         } else {
           Fluttertoast.showToast(
@@ -366,7 +365,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 14.0);
-          print("failed");    
+          print("failed");
           return;
         }
 

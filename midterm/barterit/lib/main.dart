@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BarterIt',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme.apply()),
