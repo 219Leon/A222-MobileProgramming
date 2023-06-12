@@ -1,0 +1,3 @@
+[12-Jun-2023 10:39:00 UTC] PHP Notice:  Undefined index: image in /home4/uumitpro/public_html/barterit_leon/php/insert_item.php on line 18
+[12-Jun-2023 10:39:01 UTC] PHP Notice:  Undefined index: item_rent_price in /home4/uumitpro/public_html/barterit_leon/php/loadselleritems.php on line 19
+[12-Jun-2023 10:39:58 UTC] PHP Notice:  Undefined index: item_rent_price in /home4/uumitpro/public_html/barterit_leon/php/loadselleritems.php on line 19
