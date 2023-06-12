@@ -42,7 +42,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _lat, _lng;
-    List<File> imageList = [];
+  List<File> imageList = [];
   int _index = 0;
   late Position _position;
 
@@ -57,7 +57,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     _itemlocalEditingController.text = widget.placemarks[0].locality.toString();
   }
 
-
   var imgNo = 1;
   File? _image;
   var pathAsset = "assets/images/camera.png";
@@ -71,42 +70,105 @@ class _AddItemScreenState extends State<AddItemScreen> {
           child: Column(
         children: [
           imgNo == 0
-          ? GestureDetector(
-          onTap: _selectImageDialog,
-                child: Card(
-                  elevation: 8,
-                  child: Container(
+              ? GestureDetector(
+                  onTap: _selectImageDialog,
+                  child: Card(
+                    elevation: 8,
+                    child: Container(
+                      height: 250,
+                      width: 250,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: _image == null
+                            ? AssetImage(pathAsset)
+                            : FileImage(_image!) as ImageProvider,
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                  ),
+                )
+              : Center(
+                  child: SizedBox(
                     height: 250,
-                    width: 250,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: _image == null
-                          ? AssetImage(pathAsset)
-                          : FileImage(_image!) as ImageProvider,
-                      fit: BoxFit.cover,
-                    )),
+                    child: PageView.builder(
+                        itemCount: 3,
+                        controller: PageController(viewportFraction: 0.7),
+                        onPageChanged: (int index) =>
+                            setState(() => _index = index),
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index == 0) {
+                            return Transform.scale(
+                              scale: 1,
+                              child: Card(
+                                  elevation: 6,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: GestureDetector(
+                                    onTap: _selectImageDialog,
+                                    child: Container(
+                                      height: 250,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                        image: imageList.isNotEmpty
+                                            ? FileImage(imageList[0])
+                                                as ImageProvider
+                                            : AssetImage(pathAsset),
+                                        fit: BoxFit.cover,
+                                      )),
+                                    ),
+                                  )),
+                            );
+                          } else if (index == 1) {
+                            return Transform.scale(
+                              scale: 1,
+                              child: Card(
+                                  elevation: 6,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: GestureDetector(
+                                    onTap: _selectImageDialog,
+                                    child: Container(
+                                      height: 250,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                        image: imageList.length > 1
+                                            ? FileImage(imageList[1])
+                                                as ImageProvider
+                                            : AssetImage(pathAsset),
+                                        fit: BoxFit.cover,
+                                      )),
+                                    ),
+                                  )),
+                            );
+                          } else {
+                            return Transform.scale(
+                              scale: 1,
+                              child: Card(
+                                  elevation: 6,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: GestureDetector(
+                                    onTap: _selectImageDialog,
+                                    child: Container(
+                                      height: 250,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                        image: imageList.length > 2
+                                            ? FileImage(imageList[2])
+                                                as ImageProvider
+                                            : AssetImage(pathAsset),
+                                        fit: BoxFit.cover,
+                                      )),
+                                    ),
+                                  )),
+                            );
+                          }
+                        }),
                   ),
                 ),
-              )
-            : Center(
-                child: SizedBox(
-                  height: 250,
-                  child: PageView.builder(
-                      itemCount: 3,
-                      controller: PageController(viewportFraction: 0.7),
-                      onPageChanged: (int index) =>
-                          setState(() => _index = index),
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == 0) {
-                          return img1();
-                        } else if (index == 1) {
-                          return img2();
-                        } else {
-                          return img3();
-                        }
-                      }),
-                ),
-              ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
@@ -351,7 +413,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-             return AlertDialog(
+        return AlertDialog(
             title: const Text(
               "Select picture from:",
               style: TextStyle(),
@@ -506,7 +568,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'image1': base64Image1,
       'image2': base64Image2,
       'image3': base64Image3,
-      }).then((response) {
+    }).then((response) {
       print(response.body);
       var data = jsonDecode(response.body);
       if (response.statusCode == 200 && data['status'] == "success") {
@@ -530,78 +592,5 @@ class _AddItemScreenState extends State<AddItemScreen> {
         return;
       }
     });
-  }
-
-  
-  Widget img1() {
-    return Transform.scale(
-      scale: 1,
-      child: Card(
-          elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: GestureDetector(
-            onTap: _selectImageDialog,
-            child: Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: imageList.isNotEmpty
-                    ? FileImage(imageList[0]) as ImageProvider
-                    : AssetImage(pathAsset),
-                fit: BoxFit.cover,
-              )),
-            ),
-          )),
-    );
-  }
-
-  Widget img2() {
-    return Transform.scale(
-      scale: 1,
-      child: Card(
-          elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: GestureDetector(
-            onTap: _selectImageDialog,
-            child: Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: imageList.length > 1
-                    ? FileImage(imageList[1]) as ImageProvider
-                    : AssetImage(pathAsset),
-                fit: BoxFit.cover,
-              )),
-            ),
-          )),
-    );
-  }
-
-  Widget img3() {
-    return Transform.scale(
-      scale: 1,
-      child: Card(
-          elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: GestureDetector(
-            onTap: _selectImageDialog,
-            child: Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: imageList.length > 2
-                    ? FileImage(imageList[2]) as ImageProvider
-                    : AssetImage(pathAsset),
-                fit: BoxFit.cover,
-              )),
-            ),
-          )),
-    );
   }
 }
