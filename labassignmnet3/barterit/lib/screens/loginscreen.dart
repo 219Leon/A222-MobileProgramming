@@ -36,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title: const Text("User Login")),
       body: Stack(
         children: [upperHalf(context), lowerHalf(context)],
       ),

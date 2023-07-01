@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:barterit/screens/additem.dart';
 import 'package:barterit/screens/viewdetails.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/user.dart';
 import '../../model/items.dart';
+import '../shared/mainmenu.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,15 +15,17 @@ import 'package:ndialog/ndialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../screens/loginscreen.dart';
+import 'mainscreen.dart';
 
 class SellerScreen extends StatefulWidget {
   final User user;
   final int selectedIndex;
-  const SellerScreen(
-      {super.key,
-      required this.selectedIndex,
-      required this.user,
-      });
+  const SellerScreen({
+    super.key,
+    required this.selectedIndex,
+    required this.user,
+  });
 
   @override
   State<SellerScreen> createState() => _SellerScreenState();
@@ -41,6 +45,7 @@ class _SellerScreenState extends State<SellerScreen> {
   void initState() {
     super.initState();
     _loadItems();
+    print('User ID: ${widget.user.id}');
   }
 
   @override
@@ -57,103 +62,128 @@ class _SellerScreenState extends State<SellerScreen> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          appBar: AppBar(title: const Text("Seller Screen")),
-          body: RefreshIndicator(
-            onRefresh: () => _loadItems(),
-            child: itemList.isEmpty
-                ? Center(
-                    child: Text(
-                      titlecenter,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          "Current items available (${itemList.length} found)",
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+            appBar: AppBar(
+              title: const Text("Seller Screen"),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    if (widget.user.id == "0") {
+                      _loginForm();
+                    } else {
+                      _logoutForm();
+                    }
+                  },
+                  icon: widget.user.id == "0"
+                      ? Icon(
+                          Icons.login,
+                          color: Colors.white,
+                        )
+                      : Icon(
+                          Icons.logout,
+                          color: Colors.white,
                         ),
+                )
+              ],
+            ),
+            body: RefreshIndicator(
+              onRefresh: () => _loadItems(),
+              child: itemList.isEmpty
+                  ? Center(
+                      child: Text(
+                        titlecenter,
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Expanded(
-                          child: GridView.count(
-                              crossAxisCount: rowcount,
-                              children: List.generate(itemList.length, (index) {
-                                return Card(
-                                  elevation: 8,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showDetails(index);
-                                    },
-                                    onLongPress: () {
-                                      _deleteDialog(index);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Flexible(
-                                            flex: 7,
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  "${Config.SERVER}/assets/itemimages/${itemList[index].itemId}_1.png",
-                                              placeholder: (context, url) =>
-                                                  const LinearProgressIndicator(),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                            )),
-                                        Flexible(
-                                            flex: 7,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    truncateString(
-                                                        itemList[index]
-                                                            .itemName
-                                                            .toString(),
-                                                        15),
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                      "RM ${double.parse(itemList[index].itemPrice.toString()).toStringAsFixed(2)} per hour"),
-                                                  Text(
-                                                    df.format(DateTime.parse(
-                                                        itemList[index]
-                                                            .itemDate
-                                                            .toString())),
-                                                    style: const TextStyle(
-                                                        fontSize: 10),
-                                                  )
-                                                ],
-                                              ),
-                                            ))
-                                      ],
+                    )
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            "Current items available (${itemList.length} found)",
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Expanded(
+                            child: GridView.count(
+                                crossAxisCount: rowcount,
+                                children:
+                                    List.generate(itemList.length, (index) {
+                                  return Card(
+                                    elevation: 8,
+                                    child: InkWell(
+                                      onTap: () {
+                                        _showDetails(index);
+                                      },
+                                      onLongPress: () {
+                                        _deleteDialog(index);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Flexible(
+                                              flex: 7,
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "${Config.SERVER}/assets/itemimages/${itemList[index].itemId}_1.png",
+                                                placeholder: (context, url) =>
+                                                    const LinearProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              )),
+                                          Flexible(
+                                              flex: 7,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      truncateString(
+                                                          itemList[index]
+                                                              .itemName
+                                                              .toString(),
+                                                          15),
+                                                      style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                        "RM ${double.parse(itemList[index].itemPrice.toString()).toStringAsFixed(2)} per hour"),
+                                                    Text(
+                                                      df.format(DateTime.parse(
+                                                          itemList[index]
+                                                              .itemDate
+                                                              .toString())),
+                                                      style: const TextStyle(
+                                                          fontSize: 10),
+                                                    )
+                                                  ],
+                                                ),
+                                              ))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              })))
-                    ],
-                  ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _gotoNewItem,
-            tooltip: 'Add new item',
-            child: const Icon(Icons.add_rounded),
-          ),
-        ));
+                                  );
+                                })))
+                      ],
+                    ),
+            ),
+            floatingActionButton: widget.user.id != "0"
+            ?FloatingActionButton(
+              onPressed: _gotoNewItem,
+              tooltip: 'Add new item',
+              child: const Icon(Icons.add_rounded),
+            ): null,
+            drawer: MainMenuWidget(user: widget.user)));
   }
 
   String truncateString(String str, int size) {
@@ -166,6 +196,11 @@ class _SellerScreenState extends State<SellerScreen> {
   }
 
   Future<void> _loadItems() async {
+    if (widget.user.id == "0") {
+      titlecenter = "Please register an account";
+      setState(() {});
+      return; //exit method if true
+    }
     http
         .get(
       Uri.parse(
@@ -206,6 +241,15 @@ class _SellerScreenState extends State<SellerScreen> {
   }
 
   Future<void> _gotoNewItem() async {
+    if (widget.user.id == "0") {
+      Fluttertoast.showToast(
+          msg: "Please login/register",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          fontSize: 14.0);
+      return;
+    }
     ProgressDialog progressDialog = ProgressDialog(context,
         blur: 10,
         title: null,
@@ -356,5 +400,60 @@ class _SellerScreenState extends State<SellerScreen> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  _loginForm() {
+    print('User ID: ${widget.user.id}');
+    Navigator.push(
+        context, MaterialPageRoute(builder: (content) => const LoginScreen()));
+  }
+
+  _logoutForm() {
+    print('User ID: ${widget.user.id} logout');
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          title: const Text(
+            "Logout",
+            style: TextStyle(),
+          ),
+          content: const Text("Are your sure?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Yes",
+                style: TextStyle(),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('email', '');
+                await prefs.setString('pass', '');
+                await prefs.setBool('remember', false);
+                // ignore: use_build_context_synchronously
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) =>
+                            const LoginScreen()));
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
         selectedIndex: 0,
         user: widget.user,
       ),
-      BuyerScreen(selectedIndex: 1),
+      BuyerScreen(user: widget.user, selectedIndex: 1),
       ProfileScreen(selectedIndex: 2)
     ];
   }
