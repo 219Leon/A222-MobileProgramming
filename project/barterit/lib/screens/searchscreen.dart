@@ -50,7 +50,8 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
         name: "unregistered",
         address: "na",
         phone: "0123456789",
-        regdate: "1970/01/01");
+        regdate: "1970/01/01",
+        credit: "0");
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _loadItems("all", 1);
     });

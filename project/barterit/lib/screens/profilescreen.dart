@@ -143,6 +143,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         const Icon(Icons.date_range),
                                         Text(df.format(DateTime.now()))
                                       ]),
+                                TableRow(children: [
+                                  const Icon(Icons.credit_score),
+                                  Text(
+                                    widget.user.credit.toString(),
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ]),
+                                widget.user.regdate.toString() == ""
+                                    ? TableRow(children: [
+                                        const Icon(Icons.date_range),
+                                        Text(df.format(DateTime.parse(
+                                            widget.user.regdate.toString())))
+                                      ])
+                                    : TableRow(children: [
+                                        const Icon(Icons.date_range),
+                                        Text(df.format(DateTime.now()))
+                                      ]),
                               ],
                             ),
                           ],
@@ -203,7 +220,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           MaterialButton(
                             onPressed: _registerAccountDialog,
                             child: const Text("NEW REGISTRATION"),
-                          ),MaterialButton(
+                          ),
+                          MaterialButton(
                             onPressed: _loginDialog,
                             child: const Text("LOGIN"),
                           ),
@@ -564,10 +582,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton.icon(
-                    onPressed: () =>
-                        {Navigator.of(context).pop(), _galleryPicker()},
-                    icon: const Icon(Icons.image),
-                    label: const Text("Gallery"),),
+                  onPressed: () =>
+                      {Navigator.of(context).pop(), _galleryPicker()},
+                  icon: const Icon(Icons.image),
+                  label: const Text("Gallery"),
+                ),
                 TextButton.icon(
                     onPressed: () =>
                         {Navigator.of(context).pop(), _cameraPicker()},
@@ -689,6 +708,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   address: "na",
                   phone: "0123456789",
                   regdate: "0",
+                  credit: "0",
                 );
                 // ignore:
                 Navigator.pushReplacement(
@@ -711,7 +731,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
-  
+
   _registerAccountDialog() {
     showDialog(
       context: context,
@@ -753,6 +773,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+
   _loginDialog() {
     showDialog(
       context: context,

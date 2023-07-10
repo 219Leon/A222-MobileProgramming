@@ -1,3 +1,4 @@
+import 'package:barterit/screens/purchasecreditscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../screens/mainscreen.dart';
@@ -102,7 +103,21 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                           selectedIndex: 3,
                         )));
               }),
-          if (widget.user.id == "0") // Condition for user ID equals "0"
+          ListTile(
+              title: Text('Purchase credits (Balance: ${widget.user.credit})'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    EnterExitRoute(
+                        exitPage: MainScreen(
+                          user: widget.user,
+                          selectedIndex: 0,
+                        ),
+                        enterPage: PurchaseCreditScreen(user: widget.user)
+                        ));
+              }),
+          if (widget.user.id == "0") 
             ListTile(
               title: const Text('Login/Register'),
               onTap: () {
