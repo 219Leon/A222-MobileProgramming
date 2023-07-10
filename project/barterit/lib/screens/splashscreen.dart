@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
         credit: "0",
         );
     Timer(
-        const Duration(seconds: 3),
+        const Duration(seconds: 8),
         () => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (content) => MainScreen(user: user, selectedIndex: 0,))));
   }
@@ -63,11 +63,10 @@ class _SplashScreenState extends State<SplashScreen> {
           padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text("BarterIt",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black)),
+            children: [
+              Image.asset("assets/images/logo-with-text.png", scale:2),
               CircularProgressIndicator(),
-              Text(
+              const Text(
                 "Version 1.0.0",
                 style: TextStyle(
                     fontSize: 18,

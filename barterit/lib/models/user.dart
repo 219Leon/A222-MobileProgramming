@@ -1,39 +1,47 @@
 class User {
   String? id;
-  String? name;
   String? email;
+  String? name;
   String? phone;
-  String? address;
-  String? regdate;
+  String? password;
+  String? otp;
+  String? datereg;
+  String? hasavatar;
   String? credit;
 
   User(
       {this.id,
-      this.name,
       this.email,
+      this.name,
       this.phone,
-      this.address,
-      this.regdate,
+      this.password,
+      this.otp,
+      this.datereg,
+      this.hasavatar,
       this.credit});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
     email = json['email'];
+    name = json['name'];
     phone = json['phone'];
-    address = json['address'];
-    regdate = json['regdate'];
+    password = json['password'];
+    otp = json['otp'];
+    datereg = json['datereg'];
+    hasavatar = json['hasavatar'];
     credit = json['credit'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['name'] = name;
     data['email'] = email;
+    data['name'] = name;
     data['phone'] = phone;
-    data['address'] = address;
-    data['regdate'] = regdate;
+    data['password'] = password;
+    data['otp'] = otp;
+    data['datereg'] = datereg;
+    data['hasavatar'] = hasavatar;
     data['credit'] = credit;
     return data;
   }

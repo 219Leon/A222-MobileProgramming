@@ -1,11 +1,11 @@
 class Offer {
-  String? receiveId = "";
+  String? takeId = "";
   String? giveId = "";
 
-  Offer({this.receiveId, this.giveId});
+  Offer({this.takeId, this.giveId});
 
   Offer.fromJson(Map<String, dynamic> json) {
     giveId = json['offer_giveid'];
-    receiveId = json['offer_receiveid'];
+    takeId = json['offer_takeid'];
   }
 }

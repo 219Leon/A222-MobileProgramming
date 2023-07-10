@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:barterit/screens/mainscreen.dart';
-import 'package:barterit/screens/selleritemdetails.dart';
+import 'package:barterit/screens/traderitemdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,7 +78,7 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
       onWillPop: () async => false,
       child: Scaffold(
           appBar: AppBar(
-            title: const Text("Search Items"),
+            title: const Text("Items for Barter"),
             actions: [
               IconButton(
                 onPressed: () {
@@ -361,8 +361,8 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (content) => SellerItemDetails(
-                  user: widget.user, item: item, seller: seller)));
+              builder: (content) => TraderItemDetails(
+                  user: widget.user, item: item, trader: seller)));
     }
   }
 

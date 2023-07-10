@@ -70,15 +70,15 @@ class _MainScreenState extends State<MainScreen> {
               tabBackgroundColor: Colors.teal.withOpacity(0.1),
               tabs: const [
                 GButton(
-                  icon: Icons.store_mall_directory,
-                  text: 'Items Available',
+                  icon: Icons.home,
+                  text: 'Home',
                 ),
                 GButton(
                   icon: Icons.list_alt,
                   text: 'Owned Items',
                 ),
                 GButton(
-                  icon: Icons.cached,
+                  icon: Icons.autorenew,
                   text: 'Barter',
                 ),
                 GButton(

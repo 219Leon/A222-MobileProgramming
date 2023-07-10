@@ -150,16 +150,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     style: const TextStyle(fontSize: 12),
                                   ),
                                 ]),
-                                widget.user.regdate.toString() == ""
-                                    ? TableRow(children: [
-                                        const Icon(Icons.date_range),
-                                        Text(df.format(DateTime.parse(
-                                            widget.user.regdate.toString())))
-                                      ])
-                                    : TableRow(children: [
-                                        const Icon(Icons.date_range),
-                                        Text(df.format(DateTime.now()))
-                                      ]),
                               ],
                             ),
                           ],

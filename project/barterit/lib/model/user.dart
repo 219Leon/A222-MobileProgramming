@@ -8,13 +8,13 @@ class User {
   String? credit;
 
   User(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.address,
-      required this.regdate,
-      required this.credit});
+      { this.id,
+       this.name,
+       this.email,
+       this.phone,
+       this.address,
+       this.regdate,
+       this.credit});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

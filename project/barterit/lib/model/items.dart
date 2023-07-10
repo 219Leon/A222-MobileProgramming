@@ -13,18 +13,18 @@ class Item{
   String? itemDate;
 
   Item(
-    {required this.itemId,
-    required this.userId,
-    required this.itemName,
-    required this.itemQty,    
-    required this.itemPrice,
-    required this.itemDelivery,
-    required this.itemDesc,
-    required this.itemDate,
-    required this.itemState,
-    required this.itemLocal,
-    required this.itemLat,
-    required this.itemLng});
+    { this.itemId,
+     this.userId,
+     this.itemName,
+     this.itemQty,    
+     this.itemPrice,
+     this.itemDelivery,
+     this.itemDesc,
+     this.itemDate,
+     this.itemState,
+     this.itemLocal,
+     this.itemLat,
+     this.itemLng});
 
   Item.fromJson(Map<String, dynamic> json) {
     itemId = json['item_id'];

@@ -2,40 +2,49 @@ class Item {
   String? itemId;
   String? userId;
   String? itemName;
-  String? itemDesc;
   String? itemPrice;
-  String? itemDelivery;
+  String? itemType;
+  String? itemImageCount;
+  String? itemDesc;
   String? itemQty;
-  String? itemState;
-  String? itemLocal;
   String? itemLat;
-  String? itemLng;
+  String? itemLong;
+  String? itemState;
+  String? itemLocality;
   String? itemDate;
+  String? itemBarterto;
+
   Item(
       {this.itemId,
       this.userId,
       this.itemName,
       this.itemPrice,
+      this.itemType,
+      this.itemImageCount,
       this.itemDesc,
       this.itemQty,
       this.itemLat,
-      this.itemLng,
+      this.itemLong,
       this.itemState,
-      this.itemLocal,
-      this.itemDate,});
+      this.itemLocality,
+      this.itemDate,
+      this.itemBarterto});
 
   Item.fromJson(Map<String, dynamic> json) {
     itemId = json['item_id'];
     userId = json['user_id'];
     itemName = json['item_name'];
     itemPrice = json['item_price'];
+    itemType = json['item_type'];
+    itemImageCount = json['item_imagecount'];
     itemDesc = json['item_desc'];
     itemQty = json['item_qty'];
     itemLat = json['item_lat'];
-    itemLng = json['item_lng'];
+    itemLong = json['item_long'];
     itemState = json['item_state'];
-    itemLocal = json['item_local'];
+    itemLocality = json['item_locality'];
     itemDate = json['item_datereg'];
+    itemBarterto = json['item_barterto'];
   }
 
   Map<String, dynamic> toJson() {
@@ -44,13 +53,16 @@ class Item {
     data['user_id'] = userId;
     data['item_name'] = itemName;
     data['item_price'] = itemPrice;
+    data['item_type'] = itemType;
+    data['item_imagecount'] = itemImageCount;
     data['item_desc'] = itemDesc;
     data['item_qty'] = itemQty;
     data['item_lat'] = itemLat;
-    data['item_lng'] = itemLng;
+    data['item_long'] = itemLong;
     data['item_state'] = itemState;
-    data['item_local'] = itemLocal;
+    data['item_locality'] = itemLocality;
     data['item_datereg'] = itemDate;
+    data['item_barterto'] = itemBarterto;
     return data;
   }
 }
