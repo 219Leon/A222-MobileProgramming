@@ -15,20 +15,20 @@ import 'package:ndialog/ndialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 
-class BuyerScreen extends StatefulWidget {
+class AllItemsScreen extends StatefulWidget {
   final User user;
   var selectedIndex = 0;
-  BuyerScreen({
+  AllItemsScreen({
     super.key,
     required this.selectedIndex,
     required this.user,
   });
 
   @override
-  State<BuyerScreen> createState() => _BuyerScreenState();
+  State<AllItemsScreen> createState() => _AllItemsScreenState();
 }
 
-class _BuyerScreenState extends State<BuyerScreen> {
+class _AllItemsScreenState extends State<AllItemsScreen> {
   List<Item> itemList = <Item>[];
   String titlecenter = "Nothing found in the list!";
   final df = DateFormat('dd/MM/yyyy hh:mm a');
@@ -77,7 +77,7 @@ class _BuyerScreenState extends State<BuyerScreen> {
       onWillPop: () async => false,
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Buyer Screen"),
+            title: const Text("Search Items"),
             actions: [
               IconButton(
                 onPressed: () {
@@ -88,24 +88,6 @@ class _BuyerScreenState extends State<BuyerScreen> {
                   color: Colors.white,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  if (widget.user.id == "0") {
-                    _loginForm();
-                  } else {
-                    _logoutForm();
-                  }
-                },
-                icon: widget.user.id == "0"
-                    ? Icon(
-                        Icons.login,
-                        color: Colors.white,
-                      )
-                    : Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
-              )
             ],
           ),
           body: RefreshIndicator(
@@ -392,61 +374,5 @@ class _BuyerScreenState extends State<BuyerScreen> {
         seller = User.fromJson(jsonResponse['data']);
       }
     });
-  }
-
-  _loginForm() {
-      print('User ID: ${widget.user.id}');
-      Navigator.push(context,
-          MaterialPageRoute(builder: (content) => const LoginScreen()));
-  }
-  
-  _logoutForm() {
-      print('User ID: ${widget.user.id} logout');
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            title: const Text(
-              "Logout",
-              style: TextStyle(),
-            ),
-            content: const Text("Are your sure?"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text(
-                  "Yes",
-                  style: TextStyle(),
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setString('email', '');
-                  await prefs.setString('pass', '');
-                  await prefs.setBool('remember', false);
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (content) =>
-                             const LoginScreen()));
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  "No",
-                  style: TextStyle(),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
   }
 }

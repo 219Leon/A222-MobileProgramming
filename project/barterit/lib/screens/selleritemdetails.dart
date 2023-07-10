@@ -53,189 +53,178 @@ class _sellerItemDetailsScreen extends State<SellerItemDetails> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 10),
         CarouselSlider(
-          options: CarouselOptions(
-            enlargeCenterPage: true,
-            enableInfiniteScroll: false,
-            autoPlay: false,
-          ),
-          items: imageList.map((url) {
-            return Builder(builder: (BuildContext context){
-              return CachedNetworkImage(
-                imageUrl: url,
-                placeholder: (context, url) => LinearProgressIndicator(),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-              );
-            });
-          }).toList()
-        ),
-        const SizedBox(height: 20),
-
-        SizedBox(
-            width: screenWidth - 16,
-            child: Table(
-              border: TableBorder.all(
-                  color: Colors.black, style: BorderStyle.none, width: 1),
-              columnWidths: const {
-                0: FixedColumnWidth(80),
-                1: FixedColumnWidth(10),
-                2: FixedColumnWidth(180),
-              },
-              children: [
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Item ID', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "I-${widget.item.userId.toString().padLeft(5, '0')}${widget.item.itemId.toString().padLeft(3, '0')}",
-                            style: const TextStyle(fontSize: 13)),
-                      ]),
-                ]),
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Description', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.item.itemDesc.toString(),
-                            style: const TextStyle(fontSize: 13)),
-                      ]),
-                ]),
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Retail Price', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "RM ${double.parse(widget.item.itemPrice.toString()).toStringAsFixed(2)}",
-                            style: const TextStyle(fontSize: 13)),
-                      ]),
-                ]),
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Delivery Fees', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "RM ${double.parse(widget.item.itemDelivery.toString()).toStringAsFixed(2)}",
-                            style: const TextStyle(fontSize: 13)),
-                      ]),
-                ]),
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Quantity', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.item.itemQty.toString(),
-                            style: const TextStyle(fontSize: 13)),
-                      ]),
-                ]),
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Locality', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${widget.item.itemLocal}",
-                            style: const TextStyle(fontSize: 13)),
-                      ]),
-                ]),
-                TableRow(children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('seller Name', style: TextStyle(fontSize: 13))
-                      ]),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${widget.seller.name}",
-                            style: const TextStyle(fontSize: 13))
-                      ]),
-                ]),
-              ],
+            options: CarouselOptions(
+              enlargeCenterPage: true,
+              enableInfiniteScroll: false,
+              autoPlay: false,
             ),
+            items: imageList.map((url) {
+              return Builder(builder: (BuildContext context) {
+                return CachedNetworkImage(
+                  imageUrl: url,
+                  placeholder: (context, url) => LinearProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                );
+              });
+            }).toList()),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: screenWidth - 16,
+          child: Table(
+            border: TableBorder.all(
+                color: Colors.black, style: BorderStyle.none, width: 1),
+            columnWidths: const {
+              0: FixedColumnWidth(80),
+              1: FixedColumnWidth(10),
+              2: FixedColumnWidth(180),
+            },
+            children: [
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Item ID', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                      "I-${widget.item.userId.toString().padLeft(5, '0')}${widget.item.itemId.toString().padLeft(3, '0')}",
+                      style: const TextStyle(fontSize: 13)),
+                ]),
+              ]),
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Description', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(widget.item.itemDesc.toString(),
+                      style: const TextStyle(fontSize: 13)),
+                ]),
+              ]),
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Retail Price', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                      "RM ${double.parse(widget.item.itemPrice.toString()).toStringAsFixed(2)}",
+                      style: const TextStyle(fontSize: 13)),
+                ]),
+              ]),
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Delivery Fees', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                      "RM ${double.parse(widget.item.itemDelivery.toString()).toStringAsFixed(2)}",
+                      style: const TextStyle(fontSize: 13)),
+                ]),
+              ]),
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Quantity', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(widget.item.itemQty.toString(),
+                      style: const TextStyle(fontSize: 13)),
+                ]),
+              ]),
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Locality', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text("${widget.item.itemLocal}",
+                      style: const TextStyle(fontSize: 13)),
+                ]),
+              ]),
+              TableRow(children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('seller Name', style: TextStyle(fontSize: 13))
+                    ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text("${widget.seller.name}",
+                      style: const TextStyle(fontSize: 13))
+                ]),
+              ]),
+            ],
           ),
-          const SizedBox(height: 40),
+        ),
+        const SizedBox(height: 40),
         
-          Expanded(
-              child: Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: Card(
-                child: SizedBox(
-                    child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                    iconSize: 35,
-                    onPressed: _makePhoneCall,
-                    icon: const Icon(Icons.call)),
-                IconButton(
-                    iconSize: 35,
-                    onPressed: _whatsApp,
-                    icon: const Icon(Icons.whatsapp)),
-                IconButton(
-                    iconSize: 35,
-                    onPressed: _makeSmS,
-                    icon: const Icon(Icons.message)),
-                IconButton(
-                    iconSize: 35,
-                    onPressed: _onRoute,
-                    icon: const Icon(Icons.map)),
-                IconButton(
-                    iconSize: 35,
-                    onPressed: _onShowMap,
-                    icon: const Icon(Icons.maps_home_work)),
-              ],
-            ))),
-          )),
+        ElevatedButton(
+            onPressed: () {
+              addtocartdialog();
+            },
+            child: const Text("Barter for this item")),
+        Expanded(
+            child: Align(
+          alignment: FractionalOffset.bottomCenter,
+          child: Card(
+              child: SizedBox(
+                  child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  iconSize: 35,
+                  onPressed: _makePhoneCall,
+                  icon: const Icon(Icons.call)),
+              IconButton(
+                  iconSize: 35,
+                  onPressed: _whatsApp,
+                  icon: const Icon(Icons.whatsapp)),
+              IconButton(
+                  iconSize: 35,
+                  onPressed: _makeSmS,
+                  icon: const Icon(Icons.message)),
+              IconButton(
+                  iconSize: 35,
+                  onPressed: _onRoute,
+                  icon: const Icon(Icons.map)),
+              IconButton(
+                  iconSize: 35,
+                  onPressed: _onShowMap,
+                  icon: const Icon(Icons.maps_home_work)),
+            ],
+          ))),
+        )),
       ]),
     );
   }
-  
+
   Future<void> _makePhoneCall() async {
     final Uri launchUri = Uri(
       scheme: 'tel',
@@ -262,7 +251,7 @@ class _sellerItemDetailsScreen extends State<SellerItemDetails> {
 
   Future<void> _whatsApp() async {
     final Uri launchUri =
-        Uri(scheme: 'https', path: "wa.me/+6${widget.seller.phone}");
+        Uri(scheme: 'https', path: "wa.me/6${widget.seller.phone}");
     await launchUrl(launchUri);
   }
 
@@ -335,4 +324,48 @@ class _sellerItemDetailsScreen extends State<SellerItemDetails> {
     );
   }
 
+  void addtocartdialog() {
+    if (widget.user.id.toString() == "na") {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please register to barter item")));
+      return;
+    }
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+             shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          title: Text(
+            "Add ${widget.item.itemName} to barter",
+            style: TextStyle(),
+          ),
+          content: const Text("Are your sure?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Yes",
+                style: TextStyle(),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                addtobarter();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+          );
+        });
+  }
+  void addtobarter(){
+    
+  }
 }

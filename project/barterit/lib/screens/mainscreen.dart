@@ -1,8 +1,8 @@
-import 'package:barterit/screens/buyerscreen.dart';
+import 'package:barterit/screens/searchscreen.dart';
 import 'package:barterit/screens/profilescreen.dart';
 import 'package:barterit/screens/sellerscreen.dart';
+import 'package:barterit/screens/barterscreen.dart';
 import '../../model/user.dart';
-import '../../model/items.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -28,12 +28,10 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _selectedIndex = widget.selectedIndex;
     _tabs = [
-      SellerScreen(
-        selectedIndex: 0,
-        user: widget.user,
-      ),
-      BuyerScreen(user: widget.user, selectedIndex: 1),
-      ProfileScreen(selectedIndex: 2)
+      AllItemsScreen(user: widget.user, selectedIndex: 0),
+      SellerScreen(user: widget.user, selectedIndex: 1),
+      BarterScreen(user:widget.user, selectedIndex: 2),
+      ProfileScreen(user: widget.user, selectedIndex: 3)
     ];
   }
 
@@ -73,11 +71,15 @@ class _MainScreenState extends State<MainScreen> {
               tabs: const [
                 GButton(
                   icon: Icons.store_mall_directory,
-                  text: 'Seller',
+                  text: 'Items Available',
                 ),
                 GButton(
-                  icon: Icons.shopping_bag,
-                  text: 'Buyer',
+                  icon: Icons.list_alt,
+                  text: 'Owned Items',
+                ),
+                GButton(
+                  icon: Icons.cached,
+                  text: 'Barter',
                 ),
                 GButton(
                   icon: Icons.person,

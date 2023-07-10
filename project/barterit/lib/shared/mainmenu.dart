@@ -39,23 +39,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             ),
           ),
           ListTile(
-              title: const Text('Buyer Page'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    EnterExitRoute(
-                        exitPage: MainScreen(
-                          user: widget.user,
-                          selectedIndex: 0,
-                        ),
-                        enterPage: MainScreen(
-                          user: widget.user,
-                          selectedIndex: 0,
-                        )));
-              }),
-          ListTile(
-              title: const Text('Seller Page'),
+              title: const Text('List of Owned Items'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -71,7 +55,23 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                         )));
               }),
           ListTile(
-              title: const Text('Profile'),
+              title: const Text('Search for Available Items'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    EnterExitRoute(
+                        exitPage: MainScreen(
+                          user: widget.user,
+                          selectedIndex: 0,
+                        ),
+                        enterPage: MainScreen(
+                          user: widget.user,
+                          selectedIndex: 0,
+                        )));
+              }),
+              ListTile(
+              title: const Text('Barter History'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -84,6 +84,22 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                         enterPage: MainScreen(
                           user: widget.user,
                           selectedIndex: 2,
+                        )));
+              }),
+          ListTile(
+              title: const Text('Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    EnterExitRoute(
+                        exitPage: MainScreen(
+                          user: widget.user,
+                          selectedIndex: 0,
+                        ),
+                        enterPage: MainScreen(
+                          user: widget.user,
+                          selectedIndex: 3,
                         )));
               }),
           if (widget.user.id == "0") // Condition for user ID equals "0"

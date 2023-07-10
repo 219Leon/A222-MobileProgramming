@@ -45,7 +45,6 @@ class _SellerScreenState extends State<SellerScreen> {
   void initState() {
     super.initState();
     _loadItems();
-    print('User ID: ${widget.user.id}');
   }
 
   @override
@@ -63,7 +62,7 @@ class _SellerScreenState extends State<SellerScreen> {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              title: const Text("Seller Screen"),
+              title: const Text("Items for Bartering"),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -157,7 +156,7 @@ class _SellerScreenState extends State<SellerScreen> {
                                                               FontWeight.bold),
                                                     ),
                                                     Text(
-                                                        "RM ${double.parse(itemList[index].itemPrice.toString()).toStringAsFixed(2)} per hour"),
+                                                        "RM ${double.parse(itemList[index].itemPrice.toString()).toStringAsFixed(2)}"),
                                                     Text(
                                                       df.format(DateTime.parse(
                                                           itemList[index]
