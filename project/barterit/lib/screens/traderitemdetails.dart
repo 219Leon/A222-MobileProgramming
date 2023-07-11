@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:barterit/screens/selectuseritem.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../model/user.dart';
@@ -338,7 +339,6 @@ class _traderItemDetailsScreen extends State<TraderItemDetails> {
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           title: Text(
             "Add ${widget.item.itemName} to barter",
-            style: TextStyle(),
           ),
           content: const Text("Are your sure?"),
           actions: <Widget>[
@@ -349,7 +349,7 @@ class _traderItemDetailsScreen extends State<TraderItemDetails> {
               ),
               onPressed: () async {
                 Navigator.of(context).pop();
-                addtobarter();
+                selectUserItem();
               },
             ),
             TextButton(
@@ -365,7 +365,11 @@ class _traderItemDetailsScreen extends State<TraderItemDetails> {
           );
         });
   }
-  void addtobarter(){
-    
+  void selectUserItem(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => 
+        SelectUserItem(user: widget.user, trader: widget.trader, traderItem: widget.item)
+      ));
   }
 }
