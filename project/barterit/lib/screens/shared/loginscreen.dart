@@ -1,14 +1,14 @@
 import 'dart:convert';
 
+import 'package:barterit/screens/shared/registrationscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../screens/registrationscreen.dart';
-import '../screens/mainscreen.dart';
-import '../model/user.dart';
-import '../model/items.dart';
-import '../config.dart';
+import '../mainscreen.dart';
+import '../../model/user.dart';
+import '../../model/items.dart';
+import '../../config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
