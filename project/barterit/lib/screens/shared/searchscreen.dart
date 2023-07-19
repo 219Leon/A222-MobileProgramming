@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:barterit/screens/mainscreen.dart';
-import 'package:barterit/screens/trader/traderitemdetails.dart';
+import 'package:barterit/screens/user/useritemdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
