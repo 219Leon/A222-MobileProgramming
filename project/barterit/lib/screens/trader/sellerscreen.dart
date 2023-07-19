@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:barterit/screens/user/additem.dart';
-import 'package:barterit/screens/user/viewdetails.dart';
+import 'package:barterit/screens/trader/additem.dart';
+import 'package:barterit/screens/trader/edititemscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../model/user.dart';
