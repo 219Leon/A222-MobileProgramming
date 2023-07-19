@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../model/cart.dart';
 import '../../../model/user.dart';
+import '../../model/transaction.dart';
 import '../../config.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,6 +24,8 @@ class BarterScreen extends StatefulWidget {
 
 class _BarterScreenState extends State<BarterScreen> {
   List<Cart> cartList = <Cart>[];
+  List<Transaction> transactionList = <Transaction>[];
+
   late double screenHeight, screenWidth;
   late int axiscount = 2;
   final PageController _pageController = PageController(initialPage: 0);
@@ -42,7 +45,7 @@ class _BarterScreenState extends State<BarterScreen> {
     var tabText = const TextStyle(fontSize: 18);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Barter History"),
+          title: const Text("Barter Cart"),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.clear))
           ],

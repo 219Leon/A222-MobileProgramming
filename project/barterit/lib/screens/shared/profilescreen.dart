@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../model/user.dart';
 import 'package:barterit/config.dart';
-import '../LoginScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'loginscreen.dart';
 import 'mainmenu.dart';
 import 'package:http/http.dart' as http;
 
