@@ -6,7 +6,8 @@ import '../../../model/transaction.dart';
 import '../../../model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:barterit/config.dart';
-import 'userbarterdetailscreen.dart';
+import '../trader/traderbarterdetailscreen.dart';
+
 
 class UserBarterScreen extends StatefulWidget {
   final User user;
@@ -88,14 +89,14 @@ class _UserBarterScreenState extends State<UserBarterScreen> {
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () async {
-                                Transaction myorder =
+                                Transaction mytransaction =
                                     Transaction.fromJson(orderList[index].toJson());
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (content) =>
-                                            userTransactionDetailsScreen(
-                                              order: myorder,
+                                            TraderOrderDetailsScreen(
+                                              transaction: mytransaction,
                                             )));
                                 loadsellerorders();
                               },

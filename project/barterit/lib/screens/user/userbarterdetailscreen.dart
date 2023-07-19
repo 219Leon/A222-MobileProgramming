@@ -8,8 +8,7 @@ import '../../../model/items.dart';
 import '../../../model/user.dart';
 import 'package:barterit/config.dart';
 import 'package:http/http.dart' as http;
-//import 'package:mynelayan/views/screens/buyer/buyermorescreen.dart';
-
+import '../../screens/user/usermorescreen.dart';
 class BuyerDetailsScreen extends StatefulWidget {
   final Item useritem;
   final User user;
@@ -51,9 +50,9 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
             await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (content) => BuyerMoreScreen(
+                    builder: (content) => UserMoreScreen(
                           user: widget.user,
-                          useritem: widget.useritem,
+                          userItem: widget.useritem,
                         )));
           },
           icon: const Icon(Icons.more_horiz_outlined),
@@ -74,7 +73,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                     width: screenWidth,
                     fit: BoxFit.cover,
                     imageUrl:
-                        "${MyConfig().SERVER}/mynelayan/assets/itemes/${widget.useritem.itemId}.png",
+                        "${Config.SERVER}/assets/items/${widget.useritem.itemId}_1.png",
                     placeholder: (context, url) =>
                         const LinearProgressIndicator(),
                     errorWidget: (context, url, error) =>

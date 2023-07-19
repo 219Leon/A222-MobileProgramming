@@ -1,7 +1,7 @@
 import 'package:barterit/screens/shared/barterscreen.dart';
 import 'package:barterit/screens/shared/searchscreen.dart';
 import 'package:barterit/screens/shared/profilescreen.dart';
-import 'package:barterit/screens/trader/sellerscreen.dart';
+import 'package:barterit/screens/trader/traderscreen.dart';
 import '../../model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     _selectedIndex = widget.selectedIndex;
     _tabs = [
       AllItemsScreen(user: widget.user, selectedIndex: 0),
-      SellerScreen(user: widget.user, selectedIndex: 1),
+      TraderScreen(user: widget.user, selectedIndex: 1),
       BarterScreen(user:widget.user, selectedIndex: 2),
       ProfileScreen(user: widget.user, selectedIndex: 3)
     ];

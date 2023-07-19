@@ -16,22 +16,21 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../shared/loginscreen.dart';
-import '../mainscreen.dart';
 
-class SellerScreen extends StatefulWidget {
+class TraderScreen extends StatefulWidget {
   final User user;
   final int selectedIndex;
-  const SellerScreen({
+  const TraderScreen({
     super.key,
     required this.selectedIndex,
     required this.user,
   });
 
   @override
-  State<SellerScreen> createState() => _SellerScreenState();
+  State<TraderScreen> createState() => _TraderScreenState();
 }
 
-class _SellerScreenState extends State<SellerScreen> {
+class _TraderScreenState extends State<TraderScreen> {
   var _lat, _lng;
   late Position _position;
   List<Item> itemList = <Item>[];
