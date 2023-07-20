@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../model/transaction.dart';
@@ -48,9 +49,11 @@ class _TraderOrderScreenState extends State<TraderOrderScreen> {
                               flex: 7,
                               child: Row(
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                      "assets/images/profile.png",
+                                  CircleAvatar(
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      widget.user.id != null
+                                          ? "${Config.SERVER}/assets/profileimages/${widget.user.id}.jpg"
+                                          : "${Config.SERVER}/assets/profileimages/0.jpg",
                                     ),
                                   ),
                                   const SizedBox(
@@ -105,8 +108,8 @@ class _TraderOrderScreenState extends State<TraderOrderScreen> {
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () async {
-                                Transaction myorder =
-                                    Transaction.fromJson(transactionList[index].toJson());
+                                Transaction myorder = Transaction.fromJson(
+                                    transactionList[index].toJson());
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -160,8 +163,7 @@ class _TraderOrderScreenState extends State<TraderOrderScreen> {
   //                               Text(orderList[index].orderPaid.toString()),
 
   void loadsellerorders() {
-    http.post(
-        Uri.parse("${Config.SERVER}/php/load_sellerorder.php"),
+    http.post(Uri.parse("${Config.SERVER}/php/load_sellerorder.php"),
         body: {"sellerid": widget.user.id}).then((response) {
       // log(response.body);
       //orderList.clear();

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import '../../screens/user/billscreen.dart';
 import 'package:flutter/material.dart';
 import '../../../model/cart.dart';
 import '../../../model/user.dart';
@@ -30,6 +30,7 @@ class _BarterScreenState extends State<BarterScreen> {
   late int axiscount = 2;
   final PageController _pageController = PageController(initialPage: 0);
   int selectedTabIndex = 0;
+  double totalprice = 0.00;
 
   @override
   void initState() {
@@ -50,244 +51,195 @@ class _BarterScreenState extends State<BarterScreen> {
             IconButton(onPressed: () {}, icon: const Icon(Icons.clear))
           ],
         ),
-        body: Column(
-          children: [
-            const SizedBox(height: 30),
-            Align(
-              alignment: Alignment.center,
-              child: CupertinoSlidingSegmentedControl<int>(
-                children: {
-                  0: Text(
-                    '\t\tBarter History\t\t',
-                    style: tabText,
-                  ),
-                  1: Text('\t\tSeller Order\t\t', style: tabText,)
-                },
-                onValueChanged: (index) {
-                  setState(() {
-                    selectedTabIndex = index!;
-                    _pageController.animateToPage(index,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeOut);
-                  });
-                },
-                groupValue: selectedTabIndex,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-                child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  selectedTabIndex = index;
-                });
-              },
-              children: [
-                Column(
-                  children: [
-                    if (widget.user.id == "0")
-                      Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenWidth * 0.08,
-                                  24, screenWidth * 0.08, 0),
-                              child: const Text(
-                                "Please register/login to access",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (widget.user.id != "0" && cartList.isEmpty)
-                      Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenWidth * 0.08,
-                                  24, screenWidth * 0.08, 0),
-                              child: const Text(
-                                "No bartering transactions yet...",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (widget.user.id != "0" && cartList.isNotEmpty)
-                      Expanded(
-                          child: ListView.builder(
-                        itemCount: cartList.length,
-                        padding: EdgeInsets.fromLTRB(
-                            screenWidth * 0.02, 0, screenWidth * 0.02, 0),
-                        itemBuilder: (BuildContext context, index) {
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            clipBehavior: Clip.antiAlias,
-                            elevation: 3,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Row(children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              width: 2,
-                                              color: Colors.tealAccent)),
-                                      child: Column(
-                                        children: [
-                                          const Text(
-                                            "Give",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: CachedNetworkImage(
-                                                width: 98,
-                                                height: 98,
-                                                fit: BoxFit.cover,
-                                                imageUrl:
-                                                    "${Config.SERVER}/assets/itemimages/${cartList[index].itemId}_1.png",
-                                                placeholder: (context, url) =>
-                                                    const LinearProgressIndicator(),
-                                                errorWidget: (context, url,
-                                                        error) =>
-                                                    Text(
-                                                        "${cartList[index].itemId}")),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                const Icon(Icons.multiple_stop),
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              width: 2,
-                                              color: Colors.tealAccent)),
-                                      child: Column(
-                                        children: [
-                                          const Text(
-                                            "Receive",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: CachedNetworkImage(
-                                                width: 98,
-                                                height: 98,
-                                                fit: BoxFit.cover,
-                                                imageUrl:
-                                                    "${Config.SERVER}/assets/itemimages/${cartList[index].traderItemId}_1.png",
-                                                placeholder: (context, url) =>
-                                                    const LinearProgressIndicator(),
-                                                errorWidget: (context, url,
-                                                        error) =>
-                                                    Text(
-                                                        "${cartList[index].itemId}")),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                const SizedBox(width: 5),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                        Icons.remove_red_eye_outlined,
-                                        size: 35)),
-                                IconButton(
-                                    onPressed: () {
-                                      deleteCartDialog(index);
-                                    },
-                                    icon: const Icon(Icons.delete_outline,
-                                        size: 35)),
-                              ]),
-                            ),
-                          );
-                        },
-                      ))
-                  ],
-                ),
-                Center(
+        body: Column(children: [
+          const SizedBox(height: 30),
+          widget.user.id == "0"
+              ? Center(
                   child: Column(
                     children: [
-                      if (widget.user.id == "0")
-                      Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenWidth * 0.08,
-                                  24, screenWidth * 0.08, 0),
-                              child: const Text(
-                                "Please register/login to access",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (widget.user.id != "0" && cartList.isEmpty)
-                      Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenWidth * 0.08,
-                                  24, screenWidth * 0.08, 0),
-                              child: const Text(
-                                "No bartering transactions yet...",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (widget.user.id != "0" && cartList.isNotEmpty)
-                      Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenWidth * 0.08,
-                                  24, screenWidth * 0.08, 0),
-                              child: const Text(
-                                "Seller",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.08, 24, screenWidth * 0.08, 0),
+                        child: const Text(
+                          "Please register/login to access",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 )
-              ],
-            ))
-          ],
-        ),
+              : cartList.isEmpty
+                  ? Center(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                                screenWidth * 0.08, 24, screenWidth * 0.08, 0),
+                            child: const Text(
+                              "No bartering transactions yet...",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                      itemCount: cartList.length,
+                      padding: EdgeInsets.fromLTRB(
+                          screenWidth * 0.02, 0, screenWidth * 0.02, 0),
+                      itemBuilder: (BuildContext context, index) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          clipBehavior: Clip.antiAlias,
+                          elevation: 3,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Row(children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 2,
+                                            color: Colors.tealAccent)),
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          "Give",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: CachedNetworkImage(
+                                              width: 98,
+                                              height: 98,
+                                              fit: BoxFit.cover,
+                                              imageUrl:
+                                                  "${Config.SERVER}/assets/itemimages/${cartList[index].itemId}_1.png",
+                                              placeholder: (context, url) =>
+                                                  const LinearProgressIndicator(),
+                                              errorWidget:
+                                                  (context, url, error) => Text(
+                                                      "${cartList[index].itemId}")),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              const Icon(Icons.multiple_stop),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 2,
+                                            color: Colors.tealAccent)),
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          "Receive",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: CachedNetworkImage(
+                                              width: 98,
+                                              height: 98,
+                                              fit: BoxFit.cover,
+                                              imageUrl:
+                                                  "${Config.SERVER}/assets/itemimages/${cartList[index].traderItemId}_1.png",
+                                              placeholder: (context, url) =>
+                                                  const LinearProgressIndicator(),
+                                              errorWidget:
+                                                  (context, url, error) => Text(
+                                                      "${cartList[index].itemId}")),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              const SizedBox(width: 5),
+                              Column(
+                                children: [
+                                  Text(
+                                    "RM ${double.parse(cartList[index].cartPrice.toString()).toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () async {
+                                            await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (content) =>
+                                                        BillScreen(
+                                                          user: widget.user,
+                                                          totalprice:
+                                                              totalprice,
+                                                        )));
+                                            loadcart();
+                                          },
+                                          icon: const Icon(
+                                              Icons.shopping_cart_checkout,
+                                              size: 25)),
+                                      IconButton(
+                                          onPressed: () {
+                                            deleteCartDialog(index);
+                                          },
+                                          icon: const Icon(Icons.delete_outline,
+                                              size: 25)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ]),
+                          ),
+                        );
+                      },
+                    )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total Price RM ${totalprice.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (content) => BillScreen(
+                                        user: widget.user,
+                                        totalprice: totalprice,
+                                      )));
+                          loadcart();
+                        },
+                        child: const Text("Check Out"))
+                  ],
+                )),
+          )
+        ]),
         drawer: MainMenuWidget(user: widget.user));
   }
 

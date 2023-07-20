@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:barter_it/screens/trader/additem.dart';
 import 'package:barter_it/screens/trader/edititemscreen.dart';
+import 'package:barter_it/screens/trader/traderbarterscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../model/user.dart';
@@ -63,25 +64,38 @@ class _TraderScreenState extends State<TraderScreen> {
             appBar: AppBar(
               title: const Text("Items for Bartering"),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    if (widget.user.id == "0") {
-                      _loginForm();
-                    } else {
-                      _logoutForm();
-                    }
-                  },
-                  icon: widget.user.id == "0"
-                      ? Icon(
-                          Icons.login,
-                          color: Colors.white,
-                        )
-                      : Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                        ),
-                )
-              ],
+                 PopupMenuButton(
+              // add icon, by default "3 dot" icon
+              // icon: Icon(Icons.book)
+              itemBuilder: (context) {
+            return [
+              const PopupMenuItem<int>(
+                value: 0,
+                child: Text("My Order"),
+              ),
+              const PopupMenuItem<int>(
+                value: 1,
+                child: Text("New Item"),
+              ),
+            ];
+          }, onSelected: (value) async {
+            if (value == 0) {
+              if (widget.user.id.toString() == "0") {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Please login/register an account")));
+                return;
+              }
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => TraderOrderScreen(
+                            user: widget.user,
+                          )));
+            } else if (value == 1) {
+
+            } 
+          }),
+        ],
             ),
             body: RefreshIndicator(
               onRefresh: () => _loadItems(),

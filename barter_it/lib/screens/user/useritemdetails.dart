@@ -26,9 +26,17 @@ class TraderItemDetails extends StatefulWidget {
 class _traderItemDetailsScreen extends State<TraderItemDetails> {
   late double screenHeight, screenWidth, resWidth;
   late List<String> imageList;
+  int qty = 0;
+  int userqty = 1;
+  double totalprice = 0.0;
+  double singleprice = 0.0;
+
   @override
   void initState() {
     super.initState();
+     qty = int.parse(widget.item.itemQty.toString());
+    totalprice = double.parse(widget.item.itemPrice.toString());
+    singleprice = double.parse(widget.item.itemPrice.toString());
   }
 
   @override
@@ -185,7 +193,44 @@ class _traderItemDetailsScreen extends State<TraderItemDetails> {
           ),
         ),
         const SizedBox(height: 40),
-        
+        Container(
+          padding: const EdgeInsets.all(8),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            IconButton(
+                onPressed: () {
+                  if (userqty <= 1) {
+                    userqty = 1;
+                    totalprice = singleprice * userqty;
+                  } else {
+                    userqty = userqty - 1;
+                    totalprice = singleprice * userqty;
+                  }
+                  setState(() {});
+                },
+                icon: const Icon(Icons.remove)),
+            Text(
+              userqty.toString(),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+                onPressed: () {
+                  if (userqty >= qty) {
+                    userqty = qty;
+                    totalprice = singleprice * userqty;
+                  } else {
+                    userqty = userqty + 1;
+                    totalprice = singleprice * userqty;
+                  }
+                  setState(() {});
+                },
+                icon: const Icon(Icons.add)),
+          ]),
+        ),
+        Text(
+          "RM ${totalprice.toStringAsFixed(2)}",
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
         ElevatedButton(
             onPressed: () {
               addtocartdialog();

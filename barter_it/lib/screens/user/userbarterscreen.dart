@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../model/transaction.dart';
@@ -36,7 +37,29 @@ class _UserBarterScreenState extends State<UserBarterScreen> {
       appBar: AppBar(title: const Text("Your Transaction")),
       body: Container(
         child: orderList.isEmpty
-            ? Container()
+            ? Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                            
+                              padding: EdgeInsets.fromLTRB(screenWidth * 0.08,
+                                  24, screenWidth * 0.08, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/emptytransaction.png'),
+                                  const Text(
+                                    "No bartering transactions yet...",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
             : Column(
                 children: [
                   SizedBox(
@@ -49,10 +72,12 @@ class _UserBarterScreenState extends State<UserBarterScreen> {
                               flex: 7,
                               child: Row(
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                      "assets/images/profile.png",
-                                    ),
+                                   CircleAvatar(
+                                    backgroundImage: CachedNetworkImageProvider(
+                widget.user.id != null
+                    ? "${Config.SERVER}/assets/profileimages/${widget.user.id}.jpg"
+                    : "${Config.SERVER}/assets/profileimages/0.jpg",
+              ),
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -141,7 +166,7 @@ class _UserBarterScreenState extends State<UserBarterScreen> {
 
   void loadsellerorders() {
     http.post(
-        Uri.parse("${Config.SERVER}/mynelayan/php/load_userorder.php"),
+        Uri.parse("${Config.SERVER}/php/load_userorder.php"),
         body: {"userid": widget.user.id}).then((response) {
       log(response.body);
       //orderList.clear();

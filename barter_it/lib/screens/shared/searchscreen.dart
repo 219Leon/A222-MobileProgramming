@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/items.dart';
 import '../../model/user.dart';
+import '../user/userbarterscreen.dart';
 import 'mainmenu.dart';
 import 'loginscreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -89,6 +90,36 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
                   color: Colors.white,
                 ),
               ),
+              PopupMenuButton(
+              // add icon, by default "3 dot" icon
+              // icon: Icon(Icons.book)
+              itemBuilder: (context) {
+            return [
+              const PopupMenuItem<int>(
+                value: 0,
+                child: Text("My Order"),
+              ),
+              const PopupMenuItem<int>(
+                value: 1,
+                child: Text("New"),
+              ),
+            ];
+          }, onSelected: (value) async {
+            if (value == 0) {
+              if (widget.user.id.toString() == "0") {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Please login/register an account")));
+                return;
+              }
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => UserBarterScreen(
+                            user: widget.user,
+                          )));
+            } else if (value == 1) {
+            } else if (value == 2) {}
+          }),
             ],
           ),
           body: RefreshIndicator(

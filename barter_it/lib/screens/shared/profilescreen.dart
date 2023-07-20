@@ -143,13 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         const Icon(Icons.date_range),
                                         Text(df.format(DateTime.now()))
                                       ]),
-                                TableRow(children: [
-                                  const Icon(Icons.credit_score),
-                                  Text(
-                                    widget.user.credit.toString(),
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                ]),
+                                
                               ],
                             ),
                           ],
@@ -208,11 +202,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 2,
                           ),
                           MaterialButton(
-                            onPressed: _registerAccountDialog,
+                            onPressed: isDisable ? _registerAccountDialog : null,
                             child: const Text("NEW REGISTRATION"),
                           ),
                           MaterialButton(
-                            onPressed: _loginDialog,
+                            onPressed: isDisable ? _loginDialog : null,
                             child: const Text("LOGIN"),
                           ),
                           MaterialButton(

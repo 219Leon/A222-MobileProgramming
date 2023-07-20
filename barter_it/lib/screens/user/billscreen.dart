@@ -23,6 +23,10 @@ class _BillScreenState extends State<BillScreen> {
   @override
   void initState() {
     super.initState();
+    print(widget.user.id);
+    print(widget.user.name);
+    print(widget.totalprice);
+    print(widget.user.email);
   }
 
   @override

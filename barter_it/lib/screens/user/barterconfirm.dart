@@ -285,6 +285,7 @@ class _barterConfirmState extends State<BarterConfirm> {
     );
   }
   void addToCart() {
+    
     http.post(Uri.parse("${Config.SERVER}/php/addtocart.php"), body: {
       'trader_item_id': widget.traderItem.itemId.toString(),
       'user_item_id': widget.userItem.itemId.toString(),
